@@ -20,7 +20,7 @@
         <div class="body">
             <form id="form_dates_saisies" name="form_dates_saisies" action="" method="POST">
                 <div class="content">
-                    <div class="content-title">Veuillez saisir les dates ouvertuers de début et fin</div>
+                    <div class="content-title">Veuillez saisir les dates ouvertuers de début et de fin</div>
                     <div class="content-input">
                         <div class="content-prep">De</div>
                         <div>
