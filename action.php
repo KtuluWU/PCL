@@ -150,7 +150,7 @@ Highcharts.chart('container-notes', {
     },
     tooltip: {
         headerFormat: '<span style="font-size:10px;color:{series.color}">Nombres de PCL : </span><span style="font-size:10px"><b>{point.y}</b></span><br>',
-        pointFormat: '<span style="color:{series.color};padding:0">Pourentage: </span>' +
+        pointFormat: '<span style="color:{series.color};padding:0">Pourcentage: </span>' +
             '<span style="padding:0"><b>{point.name}</b></span>',
         shared: true,
         useHTML: true

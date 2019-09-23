@@ -15,7 +15,7 @@
     <div class="container">
         <div class="topbar">
             <div class="logo"></div>
-            <div class="title">Notes Procédures Collectives</div>
+            <div class="title">Monitoring Score IFG</div>
         </div>
         <div class="body">
             <form id="form_dates_saisies" name="form_dates_saisies" action="" method="POST">
