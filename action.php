@@ -70,38 +70,51 @@ $intervalle4 = array();
 $intervalle5 = array();
 $intervalle6 = array();
 $intervalle7 = array();
+$intervalle8 = array();
+$intervalle9 = array();
+$intervalle10 = array();
 $glb_intervalle = array();
 
 foreach($notes as $note) {
     switch($note) {
-        case $note["note"] && $note["note"]>=0 && $note["note"] <= 15:
+        case $note["note"] && $note["note"]>=0 && $note["note"] <= 10:
             array_push($intervalle1, $note["note"]);
             break;
-        case $note["note"] && $note["note"]>=16 && $note["note"] <= 30:
+        case $note["note"] && $note["note"]>=11 && $note["note"] <= 20:
             array_push($intervalle2, $note["note"]);
             break;
-        case $note["note"] && $note["note"]>=31 && $note["note"] <= 45:
+        case $note["note"] && $note["note"]>=21 && $note["note"] <= 30:
             array_push($intervalle3, $note["note"]);
             break;
-        case $note["note"] && $note["note"]>=46 && $note["note"] <= 60:
+        case $note["note"] && $note["note"]>=31 && $note["note"] <= 40:
             array_push($intervalle4, $note["note"]);
             break;
-        case $note["note"] && $note["note"]>=61 && $note["note"] <= 75:
+        case $note["note"] && $note["note"]>=41 && $note["note"] <= 50:
             array_push($intervalle5, $note["note"]);
             break;
-        case $note["note"] && $note["note"]>=76 && $note["note"] <= 90:
+        case $note["note"] && $note["note"]>=51 && $note["note"] <= 60:
             array_push($intervalle6, $note["note"]);
             break;
-        case $note["note"] && $note["note"]>=91 && $note["note"] <= 100:
+        case $note["note"] && $note["note"]>=61 && $note["note"] <= 70:
             array_push($intervalle7, $note["note"]);
             break;
+        case $note["note"] && $note["note"]>=71 && $note["note"] <= 80:
+            array_push($intervalle8, $note["note"]);
+            break;  
+        case $note["note"] && $note["note"]>=81 && $note["note"] <= 90:
+            array_push($intervalle9, $note["note"]);
+            break;
+        case $note["note"] && $note["note"]>=91 && $note["note"] <= 100:
+            array_push($intervalle10, $note["note"]);
+            break; 
         default:
     }
 }
 
-array_push($glb_intervalle, count($intervalle1), count($intervalle2), count($intervalle3), count($intervalle4), count($intervalle5), count($intervalle6), count($intervalle7));
+array_push($glb_intervalle, count($intervalle1), count($intervalle2), count($intervalle3), count($intervalle4), count($intervalle5), count($intervalle6), count($intervalle7), count($intervalle8), count($intervalle9), count($intervalle10));
 
 $sum = array_sum($glb_intervalle);
+
 $pc1 = round((count($intervalle1)/$sum*100), 2);
 $pc2 = round((count($intervalle2)/$sum*100), 2);
 $pc3 = round((count($intervalle3)/$sum*100), 2);
@@ -109,6 +122,9 @@ $pc4 = round((count($intervalle4)/$sum*100), 2);
 $pc5 = round((count($intervalle5)/$sum*100), 2);
 $pc6 = round((count($intervalle6)/$sum*100), 2);
 $pc7 = round((count($intervalle7)/$sum*100), 2);
+$pc8 = round((count($intervalle8)/$sum*100), 2);
+$pc9 = round((count($intervalle9)/$sum*100), 2);
+$pc10 = round((count($intervalle10)/$sum*100), 2);
 /*var_dump($intervalle1); 
 echo "<br>下一个</br>";
 var_dump($intervalle2);*/
@@ -132,13 +148,16 @@ Highcharts.chart('container-notes', {
     },
     xAxis: {
         categories: [
-            '0-15',
-            '16-30',
-            '31-45',
-            '46-60',
-            '61-75',
-            '76-90',
-            '91-100'
+            '0-10',
+            '11-20',
+            '21-30',
+            '31-40',
+            '41-50',
+            '51-60',
+            '61-70',
+            '71-80',
+            '81-90',
+            '91-10',
         ],
         crosshair: true
     },
@@ -184,6 +203,15 @@ Highcharts.chart('container-notes', {
         },{
             name: "<?php echo $pc7."%" ?>" ,
             y: <?php echo count($intervalle7) ?>
+        },{
+            name: "<?php echo $pc8."%" ?>" ,
+            y: <?php echo count($intervalle8) ?>
+        },{
+            name: "<?php echo $pc9."%" ?>" ,
+            y: <?php echo count($intervalle9) ?>
+        },{
+            name: "<?php echo $pc10."%" ?>" ,
+            y: <?php echo count($intervalle10) ?>
         }]
     }]
 });
