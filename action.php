@@ -141,7 +141,7 @@ Highcharts.chart('container-notes', {
         type: 'column'
     },
     title: {
-        text: 'Les notes calculés de PCL dans la période'
+        text: 'Les notes calculés de <?php echo $sum ?> PCL dans la période'
     },
     subtitle: {
         text: '<?php echo $date_1." ~ ".$date_2 ?>'
