@@ -55,7 +55,7 @@ for ($i = 1; $i < count($data_pre); $i++) {
 $notes = array();
 
 for ($i = 0; $i < count($data)-1; $i++) {
-    $request_scoreifg = $db_pg_score->prepare("SELECT note FROM public.\"INFOGREFFE_scoreifg\" WHERE (siren=".$data[$i][0].") AND (dttimestamp<='".$data[$i][1]."') ORDER BY dttimestamp DESC LIMIT 1");
+    $request_scoreifg = $db_pg_score->prepare("SELECT note FROM public.\"INFOGREFFE_scoreifg\" WHERE (siren=".$data[$i][0].") AND (dttimestamp<='".$data[$i][1]."') ORDER BY dttimestamp DESC");
     $request_scoreifg->execute();
     $response = $request_scoreifg->fetch(PDO::FETCH_ASSOC);
     if ($response) {
