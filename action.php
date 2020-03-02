@@ -93,6 +93,9 @@ $intervalle10 = array();
 $glb_intervalle = array();
 
 foreach($notes as $note) {
+    if ($radio == "afdcc") {
+        $note["note"] = $note["note"] * 5;
+    }
     switch($note) {
         case $note["note"] && $note["note"]>=0 && $note["note"] <= 10:
             array_push($intervalle1, $note["note"]);
