@@ -1,11 +1,12 @@
 console.log("Auteur: Yun WU");
 
-function get_date_ouverture_pcl() {
+function get_data() {
     var date_1 = document.form_dates_saisies.date1.value;
     var date_2 = document.form_dates_saisies.date2.value;
+    var radio = document.form_dates_saisies.radio.value;
 
     if (date_check(date_1, date_2)) {
-        window.location.href = "./action.php?date1="+date_1+"&date2="+date_2;
+        window.location.href = "./action.php?date1="+date_1+"&date2="+date_2+"&radio="+radio;
     }
 }
 

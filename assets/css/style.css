@@ -88,6 +88,10 @@ body {
     height: 45px;
 }
 
+.radio {
+    cursor: pointer;
+}
+
 .icon-calendar {
     vertical-align: -8px;
     position: relative;

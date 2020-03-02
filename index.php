@@ -21,6 +21,10 @@
             <form id="form_dates_saisies" name="form_dates_saisies" action="" method="POST">
                 <div class="content">
                     <div class="content-title">Veuillez saisir les dates ouvertuers de début et de fin</div>
+                    <div class="content-radio">
+                        <label class="radio"><input type="radio" name="radio" id="radio_afdcc" value="afdcc">AFDCC</label>
+                        <label class="radio"><input type="radio" name="radio" id="radio_score" value="score">Score</label>
+                    </div>
                     <div class="content-input">
                         <div class="content-prep">De</div>
                         <div>
@@ -34,7 +38,7 @@
                         </div>
                     </div>
                     <div class="content-button">
-                        <input class="button" type="button" value="Envoyer" id="button" onclick="get_date_ouverture_pcl()">
+                        <input class="button" type="button" value="Envoyer" id="button" onclick="get_data()">
                         <label><i class="material-icons icon-search">search</i></label>
                     </div>
                     <!--<div id="loading">
