@@ -62,7 +62,7 @@ for ($i = 1; $i < count($data_pre); $i++) {
 $notes = array();
 if ($radio == "score") {
     for ($i = 0; $i < count($data)-1; $i++) {
-        $request_scoreifg = $db_pg_score->prepare("SELECT note FROM public.\"INFOGREFFE_scoreifg\" WHERE (siren=".$data[$i][0].") AND (dttimestamp<='".$data[$i][1]."') ORDER BY dttimestamp DESC");
+        $request_scoreifg = $db_pg_score->prepare("SELECT note FROM public.\"INFOGREFFE_scoreifg\" WHERE (siren='".$data[$i][0]."') AND (dttimestamp<='".$data[$i][1]."') ORDER BY dttimestamp DESC");
         $request_scoreifg->execute();
         $response = $request_scoreifg->fetch(PDO::FETCH_ASSOC);
         if ($response) {
@@ -71,7 +71,7 @@ if ($radio == "score") {
     }
 } else if ($radio == "afdcc") {
     for ($i = 0; $i < count($data)-1; $i++) {
-        $request_scoreifg = $db_pg_score_afdcc->prepare("SELECT noteafdcc FROM public.\"ta_scorafdcc_scoring_bil_new\" WHERE (siren=".$data[$i][0].") AND (dttimestamp<='".$data[$i][1]."') ORDER BY dttimestamp DESC");
+        $request_scoreifg = $db_pg_score_afdcc->prepare("SELECT noteafdcc FROM public.\"ta_scorafdcc_scoring_bil_new\" WHERE (siren='".$data[$i][0]."') AND (dttimestamp<='".$data[$i][1]."') ORDER BY dttimestamp DESC");
         $request_scoreifg->execute();
         $response = $request_scoreifg->fetch(PDO::FETCH_ASSOC);
         if ($response) {
@@ -91,41 +91,47 @@ $intervalle8 = array();
 $intervalle9 = array();
 $intervalle10 = array();
 $glb_intervalle = array();
+$index_score = "note";
+$index_afdcc = "noteafdcc";
+$index = "";
 
 foreach($notes as $note) {
     if ($radio == "afdcc") {
-        $note["note"] = $note["note"] * 5;
+        $index = $index_afdcc;
+        $note[$index] = $note[$index] * 5;
+    } else {
+        $index = $index_score;
     }
     switch($note) {
-        case $note["note"] && $note["note"]>=0 && $note["note"] <= 10:
-            array_push($intervalle1, $note["note"]);
+        case $note[$index] && $note[$index]>=0 && $note[$index] <= 10:
+            array_push($intervalle1, $note[$index]);
             break;
-        case $note["note"] && $note["note"]>=11 && $note["note"] <= 20:
-            array_push($intervalle2, $note["note"]);
+        case $note[$index] && $note[$index]>=11 && $note[$index] <= 20:
+            array_push($intervalle2, $note[$index]);
             break;
-        case $note["note"] && $note["note"]>=21 && $note["note"] <= 30:
-            array_push($intervalle3, $note["note"]);
+        case $note[$index] && $note[$index]>=21 && $note[$index] <= 30:
+            array_push($intervalle3, $note[$index]);
             break;
-        case $note["note"] && $note["note"]>=31 && $note["note"] <= 40:
-            array_push($intervalle4, $note["note"]);
+        case $note[$index] && $note[$index]>=31 && $note[$index] <= 40:
+            array_push($intervalle4, $note[$index]);
             break;
-        case $note["note"] && $note["note"]>=41 && $note["note"] <= 50:
-            array_push($intervalle5, $note["note"]);
+        case $note[$index] && $note[$index]>=41 && $note[$index] <= 50:
+            array_push($intervalle5, $note[$index]);
             break;
-        case $note["note"] && $note["note"]>=51 && $note["note"] <= 60:
-            array_push($intervalle6, $note["note"]);
+        case $note[$index] && $note[$index]>=51 && $note[$index] <= 60:
+            array_push($intervalle6, $note[$index]);
             break;
-        case $note["note"] && $note["note"]>=61 && $note["note"] <= 70:
-            array_push($intervalle7, $note["note"]);
+        case $note[$index] && $note[$index]>=61 && $note[$index] <= 70:
+            array_push($intervalle7, $note[$index]);
             break;
-        case $note["note"] && $note["note"]>=71 && $note["note"] <= 80:
-            array_push($intervalle8, $note["note"]);
+        case $note[$index] && $note[$index]>=71 && $note[$index] <= 80:
+            array_push($intervalle8, $note[$index]);
             break;  
-        case $note["note"] && $note["note"]>=81 && $note["note"] <= 90:
-            array_push($intervalle9, $note["note"]);
+        case $note[$index] && $note[$index]>=81 && $note[$index] <= 90:
+            array_push($intervalle9, $note[$index]);
             break;
-        case $note["note"] && $note["note"]>=91 && $note["note"] <= 100:
-            array_push($intervalle10, $note["note"]);
+        case $note[$index] && $note[$index]>=91 && $note[$index] <= 100:
+            array_push($intervalle10, $note[$index]);
             break; 
         default:
     }

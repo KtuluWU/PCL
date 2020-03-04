@@ -21,9 +21,16 @@ error_reporting(E_ALL || ~E_NOTICE);
 
 $date_1 = $_GET["date1"];
 $date_2 = $_GET["date2"];
+$radio = $_GET["radio"];
 $pg_pdo_conn_string = "pgsql:host=79.137.30.193;port=5432;dbname=DATAIFG_SCORE;user=infogreffe;password=3Mg0Fs2Eg2";
+$pg_pdo_conn_string_afdcc = "pgsql:host=79.137.30.193;port=5432;dbname=DATAIFG_DW;user=infogreffe;password=3Mg0Fs2Eg2";
 try {
     $db_pg_score = new PDO($pg_pdo_conn_string);
+} catch (PDOException $e) {
+    die("Error!: " . $e->getMessage() . "<br/>");
+}
+try {
+    $db_pg_score_afdcc = new PDO($pg_pdo_conn_string_afdcc);
 } catch (PDOException $e) {
     die("Error!: " . $e->getMessage() . "<br/>");
 }
@@ -45,6 +52,7 @@ function data_opendata($date1, $date2) {
     return $res;
 }
 
+
 $res = data_opendata($date_1, $date_2);
 $data_pre = preg_split('/[\r\n]+/s', $res);
 $data = [];
@@ -53,83 +61,26 @@ for ($i = 1; $i < count($data_pre); $i++) {
 }
 
 $notes = array();
-
-
-for ($i = 0; $i < count($data)-1; $i++) {
-    $request_scoreifg = $db_pg_score->prepare("SELECT note FROM public.\"INFOGREFFE_scoreifg\" WHERE (siren=".$data[$i][0].") AND (dttimestamp<='".$data[$i][1]."') ORDER BY dttimestamp DESC LIMIT 1");
-    $request_scoreifg->execute();
-    $response = $request_scoreifg->fetch(PDO::FETCH_ASSOC);
-    if ($response) {
-        array_push($notes, $response);
+if ($radio == "score") {
+    for ($i = 0; $i < count($data)-1; $i++) {
+        $request_scoreifg = $db_pg_score->prepare("SELECT note FROM public.\"INFOGREFFE_scoreifg\" WHERE (siren='".$data[$i][0]."') AND (dttimestamp<='".$data[$i][1]."') ORDER BY dttimestamp DESC");
+        $request_scoreifg->execute();
+        $response = $request_scoreifg->fetch(PDO::FETCH_ASSOC);
+        if ($response) {
+            array_push($notes, $response);
+        }
+    }
+} else if ($radio == "afdcc") {
+    for ($i = 0; $i < count($data)-1; $i++) {
+        $request_scoreifg = $db_pg_score_afdcc->prepare("SELECT noteafdcc FROM public.\"ta_scorafdcc_scoring_bil_new\" WHERE (siren='".$data[$i][0]."') AND (dttimestamp<='".$data[$i][1]."') ORDER BY dttimestamp DESC");
+        $request_scoreifg->execute();
+        $response = $request_scoreifg->fetch(PDO::FETCH_ASSOC);
+        if ($response) {
+            array_push($notes, $response);
+        }
     }
 }
-
-
-$intervalle1 = array();
-$intervalle2 = array();
-$intervalle3 = array();
-$intervalle4 = array();
-$intervalle5 = array();
-$intervalle6 = array();
-$intervalle7 = array();
-$intervalle8 = array();
-$intervalle9 = array();
-$intervalle10 = array();
-$glb_intervalle = array();
-
-foreach($notes as $note) {
-    switch($note) {
-        case $note["note"] && $note["note"]>=0 && $note["note"] <= 10:
-            array_push($intervalle1, $note["note"]);
-            break;
-        case $note["note"] && $note["note"]>=11 && $note["note"] <= 20:
-            array_push($intervalle2, $note["note"]);
-            break;
-        case $note["note"] && $note["note"]>=21 && $note["note"] <= 30:
-            array_push($intervalle3, $note["note"]);
-            break;
-        case $note["note"] && $note["note"]>=31 && $note["note"] <= 40:
-            array_push($intervalle4, $note["note"]);
-            break;
-        case $note["note"] && $note["note"]>=41 && $note["note"] <= 50:
-            array_push($intervalle5, $note["note"]);
-            break;
-        case $note["note"] && $note["note"]>=51 && $note["note"] <= 60:
-            array_push($intervalle6, $note["note"]);
-            break;
-        case $note["note"] && $note["note"]>=61 && $note["note"] <= 70:
-            array_push($intervalle7, $note["note"]);
-            break;
-        case $note["note"] && $note["note"]>=71 && $note["note"] <= 80:
-            array_push($intervalle8, $note["note"]);
-            break;  
-        case $note["note"] && $note["note"]>=81 && $note["note"] <= 90:
-            array_push($intervalle9, $note["note"]);
-            break;
-        case $note["note"] && $note["note"]>=91 && $note["note"] <= 100:
-            array_push($intervalle10, $note["note"]);
-            break; 
-        default:
-    }
-}
-
-array_push($glb_intervalle, count($intervalle1), count($intervalle2), count($intervalle3), count($intervalle4), count($intervalle5), count($intervalle6), count($intervalle7), count($intervalle8), count($intervalle9), count($intervalle10));
-
-$sum = array_sum($glb_intervalle);
-
-$pc1 = round((count($intervalle1)/$sum*100), 2);
-$pc2 = round((count($intervalle2)/$sum*100), 2);
-$pc3 = round((count($intervalle3)/$sum*100), 2);
-$pc4 = round((count($intervalle4)/$sum*100), 2);
-$pc5 = round((count($intervalle5)/$sum*100), 2);
-$pc6 = round((count($intervalle6)/$sum*100), 2);
-$pc7 = round((count($intervalle7)/$sum*100), 2);
-$pc8 = round((count($intervalle8)/$sum*100), 2);
-$pc9 = round((count($intervalle9)/$sum*100), 2);
-$pc10 = round((count($intervalle10)/$sum*100), 2);
-/*var_dump($intervalle1); 
-echo "<br>下一个</br>";
-var_dump($intervalle2);*/
+var_dump($notes);
 ?>
 
 <div id="container-notes" style="min-width: 310px; height: 400px; margin: 20px auto"></div>
@@ -137,85 +88,4 @@ var_dump($intervalle2);*/
 </body>
 <script src='assets/vendor/jquery-3.4.1.min.js'></script>
 <script src='assets/js/action.js'></script>
-<script type="text/javascript">
-Highcharts.chart('container-notes', {
-    chart: {
-        type: 'column'
-    },
-    title: {
-        text: 'Les notes calculés de <?php echo $sum ?> PCL dans la période'
-    },
-    subtitle: {
-        text: '<?php echo $date_1." ~ ".$date_2 ?>'
-    },
-    xAxis: {
-        categories: [
-            '0-10',
-            '11-20',
-            '21-30',
-            '31-40',
-            '41-50',
-            '51-60',
-            '61-70',
-            '71-80',
-            '81-90',
-            '91-10',
-        ],
-        crosshair: true
-    },
-    yAxis: {
-        min: 0,
-        title: {
-            text: 'Nombres de PCL'
-        }
-    },
-    tooltip: {
-        headerFormat: '<span style="font-size:10px;color:{series.color}">Nombres de PCL : </span><span style="font-size:10px"><b>{point.y}</b></span><br>',
-        pointFormat: '<span style="color:{series.color};padding:0">Pourcentage: </span>' +
-            '<span style="padding:0"><b>{point.name}</b></span>',
-        shared: true,
-        useHTML: true
-    },
-    plotOptions: {
-        column: {
-            pointPadding: 0.2,
-            borderWidth: 0
-        }
-    },
-    series: [{
-        name: 'Notes',
-        data: [{
-            name: "<?php echo $pc1."%" ?>" ,
-            y: <?php echo count($intervalle1) ?>
-        },{
-            name: "<?php echo $pc2."%" ?>" ,
-            y: <?php echo count($intervalle2) ?>
-        },{
-            name: "<?php echo $pc3."%" ?>" ,
-            y: <?php echo count($intervalle3) ?>
-        },{
-            name: "<?php echo $pc4."%" ?>" ,
-            y: <?php echo count($intervalle4) ?>
-        },{
-            name: "<?php echo $pc5."%" ?>" ,
-            y: <?php echo count($intervalle5) ?>
-        },{
-            name: "<?php echo $pc6."%" ?>" ,
-            y: <?php echo count($intervalle6) ?>
-        },{
-            name: "<?php echo $pc7."%" ?>" ,
-            y: <?php echo count($intervalle7) ?>
-        },{
-            name: "<?php echo $pc8."%" ?>" ,
-            y: <?php echo count($intervalle8) ?>
-        },{
-            name: "<?php echo $pc9."%" ?>" ,
-            y: <?php echo count($intervalle9) ?>
-        },{
-            name: "<?php echo $pc10."%" ?>" ,
-            y: <?php echo count($intervalle10) ?>
-        }]
-    }]
-});
-</script>
 </html>
